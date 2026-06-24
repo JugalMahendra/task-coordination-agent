@@ -15,9 +15,9 @@ A unified AI agent framework with four specialized agents
 
 ### mcp-task-coordination
 
-Reads/writes tasks to Prisma (home) or Supabase (org)
-Handles task reassignment logic
-Surfaces "conflict detection" (overloaded user, deadline clash)
+- Reads/writes tasks to Prisma (home) or Supabase (org)
+- Handles task reassignment logic
+- Surfaces "conflict detection" (overloaded user, deadline clash)
 
 
 ### mcp-engagement
