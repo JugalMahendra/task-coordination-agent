@@ -1,100 +1,97 @@
 # Task Coordination Agent — Project State
 
-**Date:** July 4, 2026
+**Date:** July 5, 2026
 **Course:** Kaggle AI Agents Capstone (Deadline: July 6, 2026)
 
 ---
 
-## Files Built
-
-### 1. `seed_data.py` — Data layer
-- **FAMILY:** 5 members (mom, dad, emma, john, lily) with id, name, role, age
-- **TASKS:** 6 chores (Wash dishes, Take out trash, Vacuum, Clean bathroom, Mow lawn, Set table) with difficulty, points, status
-- **TASKS_ASSIGNMENT:** Assignment history (who did what, when, status)
-- **Helpers:** `get_task()`, `get_user()`, `get_completions_for_user()`, `get_points_balance()`, etc.
-
-### 2. `mcp_server.py` — MCP tool implementations
-- **list_tasks(status)** — Returns tasks filtered by status (or all)
-- **assign_task(task_id, user_id, due_date, reason)** — Validates + appends to TASKS_ASSIGNMENT
-- **get_user_capacity(user_id)** — Counts assigned tasks for a user
-- **get_engagement_metrics(user_id)** — Returns completion rate, points, task load
-- **suggest_reward(user_id)** — Suggests affordable reward based on points
-- **update_points_ledger(user_id, task_id, status)** — Updates task assignment status
-
-### 3. `agent_tools.py` — Tool definitions (OpenAI-compatible format)
-Defines all 6 tools as `{"type": "function", "function": {"name": ..., "parameters": ...}}` for the LLM API.
-
-### 4. `agent_loop.py` — Main agent loop
-- Loads memory from `memory.json` (conversation + assignments persist between sessions)
-- Connects to local LLM via OpenAI-compatible API (Msty at port 10000)
-- Tool calling loop: handles tool_use, dispatches to mcp_server, returns results
-- Saves memory after each message
-- Interactive chat interface
-
-### 5. `motivator_agent.py` — Agent 2 (Motivator)
-- Tracks engagement, suggests rewards, flags at-risk members
-- Uses same agent loop pattern as agent_loop.py
-- 3 tools: get_engagement_metrics, suggest_reward, update_points_ledger
-
-### 6. `multi_agent_orchestrator.py` — Two-phase multi-agent system
-- Phase 1: Orchestrator assigns tasks (list_tasks, assign_task, get_user_capacity)
-- Phase 2: Motivator analyzes engagement (get_engagement_metrics, suggest_reward)
-- Uses qwen3:latest model
-- Results saved to shared_memory.json
-
-### 7. `main_agent.py` — Combined single-loop agent
-- All 6 tools in one agent loop
-- Alternative to multi_agent_orchestrator.py
-
----
-
-## Architecture
+## Project Structure
 
 ```
-You → multi_agent_orchestrator.py → LLM (qwen3:latest via Msty)
-                                          ↓
-                               Phase 1: Orchestrator (3 tools)
-                                          ↓
-                               Phase 2: Motivator (3 tools)
-                                          ↓
-                               shared_memory.json → result → you
+task-coordination-agent/
+│
+├── agents/
+│   ├── orchestrator.py          # Central decision-making and coordination logic
+│   ├── engagement_agent.py      # Tracks participation and workload patterns
+│   ├── motivation_agent.py      # Generates rewards and motivation signals
+│   ├── communication_agent.py   # Handles notifications and messaging
+│   └── agent_loop.py            # Main execution cycle (runtime loop)
+│
+├── mcp_servers/
+│   ├── task_tools/              # Task management (create, assign, update)
+│   │   └── task_tools.py
+│   ├── analytics_tools/         # Engagement + workload analytics
+│   │   └── analytics_tools.py
+│   ├── reward_tools/            # Incentive and motivation logic
+│   │   └── reward_tools.py
+│   └── communication_tools/     # Messaging and notification tools
+│       └── communication_tools.py
+│
+├── memory/
+│   ├── shared_memory.json       # Persistent system state across cycles
+│   └── memory_manager.py        # Read/write abstraction layer for memory
+│
+├── scripts/
+│   ├── seed_demo.py             # Demo data + example execution flow
+│   └── run_system.bat           # System startup script
+│
+├── docs/
+│   ├── ARCHITECTURE.md          # System design overview
+│   ├── KAGGLE_WRITEUP.md        # Kaggle submission writeup
+│   └── NEXT_STEPS.md            # Timeline and next actions
+│
+├── benchmark/
+│   ├── scenarios.json           # 10 test scenarios
+│   ├── run_benchmark.py         # Benchmark runner
+│   └── README.md                # Benchmark documentation
+│
+├── agent_tools.py               # Tool definitions (OpenAI format)
+├── seed_data.py                 # Original data layer
+├── README.md                    # Project documentation
+└── requirements.txt             # Python dependencies
 ```
 
 ## How to Run
 
 ```bash
-# Multi-agent system (recommended)
-py multi_agent_orchestrator.py "assign all pending tasks"
+# Make sure Msty is running with granite4 loaded
+py agents/agent_loop.py "assign all pending tasks"
 
-# Single agent (alternative)
-py main_agent.py
-
-# Interactive chat
-py agent_loop.py
+# Or use the batch script
+scripts\run_system.bat "check tasks"
 ```
 
 ## Current Model: granite4:latest (via Msty at localhost:10000)
 
-## Memory System
-- `memory.json` stores conversation history + assignments
-- `shared_memory.json` stores multi-agent results (Orchestrator output → Motivator input)
-- Both files enable continuing conversations across sessions
+## Files Built
 
-## What Was Built — Step by Step (from ARCHITECTURE.md)
+### Agents
+- **orchestrator.py** — Task assignment with reasoning
+- **engagement_agent.py** — Tracks participation, detects at-risk members
+- **motivation_agent.py** — Analyzes engagement, suggests rewards
+- **communication_agent.py** — Notifications and reminders
+- **agent_loop.py** — Main runtime loop (Orchestrator → Motivator)
 
-| Step | What | Status |
-|------|------|--------|
-| 1 | Project setup | ✅ |
-| 2 | Fake data (seed_data.py) | ✅ |
-| 3 | MCP server (mcp_server.py) | ✅ 6 tools |
-| 4 | Agent 1: Orchestrator | ✅ |
-| 5 | Agent 2: Motivator | ✅ |
-| 6 | Wire agents together | ✅ (multi_agent_orchestrator.py) |
-| 7 | Test and iterate | ✅ Working! |
-| 8 | Demo video | ⬜ |
+### MCP Servers
+- **task_tools.py** — list_tasks, assign_task, get_user_capacity
+- **analytics_tools.py** — get_engagement_metrics
+- **reward_tools.py** — suggest_reward, update_points_ledger
+- **communication_tools.py** — send_notification, send_reminder, send_encouragement
 
-## Known Issues
-- None currently - granite4:latest works with tool calling
+### Memory
+- **memory_manager.py** — Read/write abstraction for shared_memory.json
+
+## Course Concepts Demonstrated
+
+| Concept | Status |
+|---------|--------|
+| Multi-Agent Systems (ADK) | ✅ |
+| MCP Servers | ✅ 6 tools |
+| Tool Use | ✅ |
+| Security | ✅ Local LLM |
+| Deployability | ✅ Offline |
 
 ## Next Steps
 1. Record demo video
+2. Upload to YouTube
+3. Submit to Kaggle

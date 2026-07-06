@@ -1,108 +1,25 @@
-# Environment variables
-.env
-.env.local
-.env.*.local
-.env.production.local
+# Docs (keep local, submit to Kaggle separately)
+docs/
 
-# API Keys and Secrets (never commit these)
-*.key
-*.pem
-*.secret
+# Debug files
+debug*.txt
+test_output.txt
 
-# Dependencies
+# Node modules
 node_modules/
-.pnp
-.pnp.js
-venv/
-env/
-ENV/
+package-lock.json
+
+# Python
 __pycache__/
-*.egg-info/
-dist/
-build/
-
-# Next.js
-.next/
-out/
-.vercel/
-
-# Testing
-.coverage/
-htmlcov/
-.pytest_cache/
-.nyc_output/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
-.env.*.local
-*.sublime-workspace
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Build outputs
-dist/
-build/
-
-# Prisma
-prisma/migrations/
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-
-# Local development
-.vercel/
-.env.development.local
-
-# Docker
-.dockerignore
-
-# Database files
-*.db
-*.sqlite
-*.sqlite3
-
-# Temp files
-tmp/
-temp/
-*.tmp
-
-# Compiled files
 *.pyc
-*.pyo
-*.pyd
 
-# Cache
-.cache/
-*.cache
+# Memory ( regenerated)
+memory/shared_memory.json
 
-# Editor temporary files
-*.swo
-*.swp
-*~
+# Presentation files
+*.pptx
+~$*
 
-# System files
-.AppleDouble
-.LSOverride
-*.sublime-project
-
-# IDE settings (but keep .vscode/settings.json if shared)
-.vscode/*
-!.vscode/settings.json
-!.vscode/extensions.json
-
-# Specific to this project
-docs/architecture.svg.backup
-*.pdf.tmp
-demo_data_backup/
+# Temporary files
+*.tmp
+*.bak

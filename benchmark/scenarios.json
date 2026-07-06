@@ -1,0 +1,94 @@
+{
+  "benchmark_name": "ChoreQuest Agent Benchmark",
+  "description": "Evaluates multi-agent tool calling for family task coordination",
+  "version": "1.0",
+  "created": "2026-07-04",
+  "scenarios": [
+    {
+      "id": "scenario_1",
+      "query": "list all pending tasks",
+      "expected_tools": ["list_tasks"],
+      "expected_args": {"taskStatus": "pending"},
+      "category": "single_tool",
+      "difficulty": "easy"
+    },
+    {
+      "id": "scenario_2",
+      "query": "how many tasks does emma have assigned",
+      "expected_tools": ["get_user_capacity"],
+      "expected_args": {"user_id": "emma"},
+      "category": "single_tool",
+      "difficulty": "easy"
+    },
+    {
+      "id": "scenario_3",
+      "query": "assign task_1 to john due 2026-07-10",
+      "expected_tools": ["assign_task"],
+      "expected_args": {"task_id": "task_1", "user_id": "john", "due_date": "2026-07-10"},
+      "category": "single_tool",
+      "difficulty": "easy"
+    },
+    {
+      "id": "scenario_4",
+      "query": "what is emma's completion rate",
+      "expected_tools": ["get_engagement_metrics"],
+      "expected_args": {"user_id": "emma"},
+      "category": "single_tool",
+      "difficulty": "easy"
+    },
+    {
+      "id": "scenario_5",
+      "query": "suggest a reward for john",
+      "expected_tools": ["suggest_reward"],
+      "expected_args": {"user_id": "john"},
+      "category": "single_tool",
+      "difficulty": "easy"
+    },
+    {
+      "id": "scenario_6",
+      "query": "assign all pending tasks to family members",
+      "expected_tools": ["list_tasks", "get_user_capacity", "assign_task"],
+      "expected_args": "varies",
+      "category": "multi_tool",
+      "difficulty": "medium"
+    },
+    {
+      "id": "scenario_7",
+      "query": "check who is overloaded and suggest help",
+      "expected_tools": ["get_user_capacity", "get_engagement_metrics"],
+      "expected_args": "varies",
+      "category": "multi_tool",
+      "difficulty": "medium"
+    },
+    {
+      "id": "scenario_8",
+      "query": "who needs encouragement based on low completion rates",
+      "expected_tools": ["get_engagement_metrics"],
+      "expected_args": "varies",
+      "category": "multi_tool",
+      "difficulty": "medium"
+    },
+    {
+      "id": "scenario_9",
+      "query": "assign tasks fairly considering each person's capacity and past performance",
+      "expected_tools": ["list_tasks", "get_user_capacity", "get_engagement_metrics", "assign_task"],
+      "expected_args": "varies",
+      "category": "multi_tool",
+      "difficulty": "hard"
+    },
+    {
+      "id": "scenario_10",
+      "query": "analyze family engagement and suggest rewards for top performers",
+      "expected_tools": ["get_engagement_metrics", "suggest_reward"],
+      "expected_args": "varies",
+      "category": "multi_tool",
+      "difficulty": "hard"
+    }
+  ],
+  "evaluation_metrics": {
+    "tool_selection_accuracy": "Percentage of correct tools called",
+    "argument_accuracy": "Percentage of correct arguments passed",
+    "completion_rate": "Percentage of scenarios completed successfully",
+    "efficiency": "Average number of tool calls per scenario"
+  }
+}
