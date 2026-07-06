@@ -17,6 +17,26 @@ Built as the capstone project for the **5-Day AI Agents: Intensive Vibe Coding C
 
 ---
 
+## Table of Contents
+
+- [Why ChoreQuest?](#-why-chorequest)
+- [Features](#-features)
+- [System Architecture](#-system-architecture)
+- [Project Structure](#-project-structure)
+- [Installation](#-installation)
+- [Running Project](#️-running-project)
+- [Example Session](#-example-session)
+- [MCP Tools](#-mcp-tools)
+- [Persistent Memory](#-persistent-memory)
+- [Agentic Reasoning](#-agentic-reasoning)
+- [Evaluation](#-evaluation)
+- [Security](#-security)
+- [Technology Stack](#️-technology-stack)
+- [Roadmap](#-roadmap)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Acknowledgements](#-acknowledgements)
+
 ---
 
 ## ⚖️ Why ChoreQuest?
